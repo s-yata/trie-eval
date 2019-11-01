@@ -19,7 +19,7 @@ void LoudsTrie::build(const vector<string> &keys) {
   }
   uint64_t offset = 0;
   for (uint64_t i = 0; i < levels_.size(); ++i) {
-    LoudsTrieLevel &level = levels_[i];
+    Level &level = levels_[i];
     level.louds.build();
     level.outs.build();
     offset += levels_[i].offset;
@@ -35,7 +35,7 @@ uint64_t LoudsTrie::lookup(const string &query) const {
   uint64_t node_id = 0;
   uint64_t rank = 0;
   for (uint64_t i = 0; i < query.length(); ++i) {
-    const LoudsTrieLevel &level = levels_[i + 1];
+    const Level &level = levels_[i + 1];
     if (rank != 0) {
       node_id = level.louds.select1(rank - 1) + 1;
       rank = node_id - rank;
@@ -51,7 +51,7 @@ uint64_t LoudsTrie::lookup(const string &query) const {
       }
     }
   }
-  const LoudsTrieLevel &level = levels_[query.length()];
+  const Level &level = levels_[query.length()];
   if (!level.outs[rank]) {
     return -1;
   }
@@ -93,7 +93,7 @@ void LoudsTrie::add(const string &key) {
   }
   uint64_t i = 0;
   for ( ; i < key.length(); ++i) {
-    LoudsTrieLevel &level = levels_[i + 1];
+    Level &level = levels_[i + 1];
     uint8_t byte = key[i];
     if ((i == last_key_.length()) || (byte != level.labels.back())) {
       level.louds.set(levels_[i + 1].louds.n_bits - 1, 0);
@@ -105,7 +105,7 @@ void LoudsTrie::add(const string &key) {
     }
   }
   for (++i; i < key.length(); ++i) {
-    LoudsTrieLevel &level = levels_[i + 1];
+    Level &level = levels_[i + 1];
     level.louds.add(0);
     level.louds.add(1);
     level.outs.add(0);

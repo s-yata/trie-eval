@@ -8,19 +8,6 @@ namespace trie_eval {
 
 using namespace std;
 
-struct LoudsTrieLevel {
-  BitVector louds;
-  BitVector outs;
-  vector<uint8_t> labels;
-  uint64_t offset;
-
-  LoudsTrieLevel() : louds(), outs(), labels(), offset(0) {}
-
-  uint64_t size() const {
-    return louds.size() + outs.size() + labels.size();
-  }
-};
-
 class LoudsTrie : TrieBase {
  public:
   LoudsTrie();
@@ -45,7 +32,20 @@ class LoudsTrie : TrieBase {
   }
 
  private:
-  vector<LoudsTrieLevel> levels_;
+  struct Level {
+    BitVector louds;
+    BitVector outs;
+    vector<uint8_t> labels;
+    uint64_t offset;
+
+    Level() : louds(), outs(), labels(), offset(0) {}
+
+    uint64_t size() const {
+      return louds.size() + outs.size() + labels.size();
+    }
+  };
+
+  vector<Level> levels_;
   uint64_t n_keys_;
   uint64_t n_nodes_;
   uint64_t size_;

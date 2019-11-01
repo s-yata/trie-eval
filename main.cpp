@@ -104,7 +104,7 @@ void eval(const vector<string> &keys, const vector<string> &shuffled_keys,
   }
   end = high_resolution_clock::now();
   elapsed = (double)duration_cast<nanoseconds>(end - begin).count();
-  printf(" validation: elapsed = %.3f s (%.3f ns/key)\n",
+  printf(" validation: %.3f s (%.3f ns/key)\n",
     elapsed / 1000000000, elapsed / keys.size());
 
   begin = high_resolution_clock::now();
@@ -113,7 +113,7 @@ void eval(const vector<string> &keys, const vector<string> &shuffled_keys,
   }
   end = high_resolution_clock::now();
   elapsed = (double)duration_cast<nanoseconds>(end - begin).count();
-  printf(" lookup (sorted): elapsed = %.3f s (%.3f ns/key)\n",
+  printf(" lookup (sorted): %.3f s (%.3f ns/key)\n",
     elapsed / 1000000000, elapsed / keys.size());
 
   begin = high_resolution_clock::now();
@@ -122,7 +122,7 @@ void eval(const vector<string> &keys, const vector<string> &shuffled_keys,
   }
   end = high_resolution_clock::now();
   elapsed = (double)duration_cast<nanoseconds>(end - begin).count();
-  printf(" lookup (shuffled): elapsed = %.3f s (%.3f ns/key)\n",
+  printf(" lookup (shuffled): %.3f s (%.3f ns/key)\n",
     elapsed / 1000000000, elapsed / keys.size());
 
   begin = high_resolution_clock::now();
@@ -131,7 +131,7 @@ void eval(const vector<string> &keys, const vector<string> &shuffled_keys,
   }
   end = high_resolution_clock::now();
   elapsed = (double)duration_cast<nanoseconds>(end - begin).count();
-  printf(" reverse_lookup (sorted): elapsed = %.3f s (%.3f ns/key)\n",
+  printf(" reverse_lookup (sorted): %.3f s (%.3f ns/key)\n",
     elapsed / 1000000000, elapsed / keys.size());
 
   begin = high_resolution_clock::now();
@@ -140,7 +140,7 @@ void eval(const vector<string> &keys, const vector<string> &shuffled_keys,
   }
   end = high_resolution_clock::now();
   elapsed = (double)duration_cast<nanoseconds>(end - begin).count();
-  printf(" reverse_lookup (shuffled): elapsed = %.3f s (%.3f ns/key)\n",
+  printf(" reverse_lookup (shuffled): %.3f s (%.3f ns/key)\n",
     elapsed / 1000000000, elapsed / keys.size());
 }
 

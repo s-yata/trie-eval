@@ -1,7 +1,6 @@
 #include "louds-trie.hpp"
 
 #include <algorithm>
-#include <iostream>
 
 namespace trie_eval {
 
@@ -30,7 +29,6 @@ void LoudsTrie::build(const vector<string> &keys) {
 }
 
 uint64_t LoudsTrie::lookup(const string &query) const {
-  // cout << "lookup: query = " << query << endl;
   if (query.length() >= levels_.size()) {
     return false;
   }

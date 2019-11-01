@@ -12,8 +12,6 @@ namespace trie_eval {
 using namespace std;
 
 struct BitVector {
-  vector<uint64_t> words;
-  uint64_t n_bits;
   struct Rank {
     uint32_t abs_hi;
     uint8_t abs_lo;
@@ -27,6 +25,9 @@ struct BitVector {
       abs_lo = (uint8_t)abs;
     }
   };
+
+  vector<uint64_t> words;
+  uint64_t n_bits;
   vector<Rank> ranks;
   vector<uint64_t> select0s;
   vector<uint64_t> select1s;

@@ -77,7 +77,7 @@ void sort_and_uniquify_keys(vector<string> &keys) {
   for (auto it = keys.begin(); it != keys.end(); ++it) {
     sum += it->length();
   }
-  printf(" #keys: %s bytes\n", uint_str(keys.size()).c_str());
+  printf(" #keys: %s\n", uint_str(keys.size()).c_str());
   double avg = (double)sum / keys.size();
   printf(" size: %s bytes (%.3f bytes/key)\n",
     uint_str(sum).c_str(),  avg);

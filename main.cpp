@@ -4,6 +4,7 @@
 #include <climits>
 #include <cstdint>
 #include <cstdio>
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -29,12 +30,10 @@ string uint_str(uint64_t v) {
   return str;
 }
 
-vector<string> read_keys() {
-  printf("keys:\n");
-  vector<string> keys;
-  uint64_t sum = 0, min_len = UINT64_MAX, max_len = 0;
+void read_keys_from(istream &stream, vector<string> &keys,
+  uint64_t &sum, uint64_t &min_len, uint64_t &max_len) {
   string line;
-  while (getline(cin, line)) {
+  while (getline(stream, line)) {
     keys.push_back(line);
     sum += line.length();
     if (line.length() < min_len) {
@@ -42,6 +41,22 @@ vector<string> read_keys() {
     }
     if (line.length() > max_len) {
       max_len = line.length();
+    }
+  }
+}
+
+vector<string> read_keys(int argc, char *argv[]) {
+  printf("keys:\n");
+  vector<string> keys;
+  uint64_t sum = 0, min_len = UINT64_MAX, max_len = 0;
+  string line;
+  if (argc == 1) {
+    read_keys_from(cin, keys, sum, min_len, max_len);
+  } else {
+    for (int i = 1; i < argc; ++i) {
+      fstream file(argv[i]);
+      assert(file);
+      read_keys_from(file, keys, sum, min_len, max_len);
     }
   }
   assert(!keys.empty());
@@ -144,10 +159,10 @@ void eval(const vector<string> &keys, const vector<string> &shuffled_keys,
     elapsed / 1000000000, elapsed / keys.size());
 }
 
-void run() {
+void run(int argc, char *argv[]) {
   ios_base::sync_with_stdio(false);
 
-  vector<string> keys = read_keys();
+  vector<string> keys = read_keys(argc, argv);
   sort_and_uniquify_keys(keys);
   vector<string> shuffled_keys = keys;
   random_shuffle(shuffled_keys.begin(), shuffled_keys.end());
@@ -162,6 +177,6 @@ void run() {
 
 }  // namespace
 
-int main() {
-  run();
+int main(int argc, char *argv[]) {
+  run(argc, argv);
 }

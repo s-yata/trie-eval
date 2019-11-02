@@ -3,8 +3,6 @@
 #include <algorithm>
 #include <queue>
 
-#include <iostream>
-
 namespace trie_eval {
 namespace {
 

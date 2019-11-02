@@ -10,7 +10,7 @@
 #include <vector>
 
 #include "trie.hpp"
-#include "louds-patricia.hpp"
+#include "patricia.hpp"
 
 namespace {
 
@@ -174,7 +174,7 @@ void run(int argc, char *argv[]) {
   });
 
   eval<Trie>(keys, shuffled_keys, shuffled_ids);
-  eval<LoudsPatricia>(keys, shuffled_keys, shuffled_ids);
+  eval<Patricia>(keys, shuffled_keys, shuffled_ids);
 }
 
 }  // namespace

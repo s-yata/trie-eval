@@ -1,5 +1,5 @@
-#ifndef LOUDS_PATRICIA_HPP
-#define LOUDS_PATRICIA_HPP
+#ifndef PATRICIA_HPP
+#define PATRICIA_HPP
 
 #include "bit-vector.hpp"
 #include "trie-base.hpp"
@@ -8,10 +8,10 @@ namespace trie_eval {
 
 using namespace std;
 
-class LoudsPatricia : TrieBase {
+class Patricia : TrieBase {
  public:
-  LoudsPatricia();
-  ~LoudsPatricia() {}
+  Patricia();
+  ~Patricia() {}
 
   void build(const vector<string> &keys);
 
@@ -19,7 +19,7 @@ class LoudsPatricia : TrieBase {
   void reverse_lookup(uint64_t id, string &key) const;
 
   const char *name() const {
-    return "LoudsPatricia";
+    return "LOUDS trie + labels";
   }
   uint64_t n_keys() const {
     return n_keys_;
@@ -45,4 +45,4 @@ class LoudsPatricia : TrieBase {
 
 }  // namespace trie_eval
 
-#endif  // LOUDS_PATRICIA_HPP
+#endif  // PATRICIA_HPP

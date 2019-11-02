@@ -1,4 +1,4 @@
-#include "louds-patricia.hpp"
+#include "patricia.hpp"
 
 #include <algorithm>
 #include <queue>
@@ -94,11 +94,11 @@ struct Node {
 
 }  // namespace
 
-LoudsPatricia::LoudsPatricia()
+Patricia::Patricia()
   : louds_(), outs_(), links_(), labels_(), tail_bits_(), tail_bytes_(),
     n_keys_(0), n_nodes_(0), size_(0) {}
 
-void LoudsPatricia::build(const vector<string> &keys) {
+void Patricia::build(const vector<string> &keys) {
   Trie trie;
   for (auto it = keys.begin(); it != keys.end(); ++it) {
     trie.add(*it);
@@ -167,7 +167,7 @@ void LoudsPatricia::build(const vector<string> &keys) {
   size_ += tail_bytes_.size();
 }
 
-uint64_t LoudsPatricia::lookup(const string &query) const {
+uint64_t Patricia::lookup(const string &query) const {
   uint64_t node_pos = 0;
   uint64_t node_id = 0;
   for (uint64_t i = 0; i < query.length(); ++i) {
@@ -203,7 +203,7 @@ uint64_t LoudsPatricia::lookup(const string &query) const {
   return outs_.rank1(node_id);
 }
 
-void LoudsPatricia::reverse_lookup(uint64_t id, string &key) const {
+void Patricia::reverse_lookup(uint64_t id, string &key) const {
   assert(id < n_keys());
   key.clear();
   uint64_t node_id = outs_.select1(id);

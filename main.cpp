@@ -173,6 +173,7 @@ void run(int argc, char *argv[]) {
     static uint64_t id = 0;
     return id++;
   });
+  random_shuffle(shuffled_ids.begin(), shuffled_ids.end());
 
   eval<Trie>(keys, shuffled_keys, shuffled_ids);
   eval<Patricia>(keys, shuffled_keys, shuffled_ids);

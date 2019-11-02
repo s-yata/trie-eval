@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-#include "louds-trie.hpp"
+#include "trie.hpp"
 #include "louds-patricia.hpp"
 
 namespace {
@@ -173,7 +173,7 @@ void run(int argc, char *argv[]) {
     return id++;
   });
 
-  eval<LoudsTrie>(keys, shuffled_keys, shuffled_ids);
+  eval<Trie>(keys, shuffled_keys, shuffled_ids);
   eval<LoudsPatricia>(keys, shuffled_keys, shuffled_ids);
 }
 

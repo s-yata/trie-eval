@@ -1,5 +1,5 @@
-#ifndef LOUDS_TRIE_HPP
-#define LOUDS_TRIE_HPP
+#ifndef TRIE_HPP
+#define TRIE_HPP
 
 #include "bit-vector.hpp"
 #include "trie-base.hpp"
@@ -8,10 +8,10 @@ namespace trie_eval {
 
 using namespace std;
 
-class LoudsTrie : TrieBase {
+class Trie : TrieBase {
  public:
-  LoudsTrie();
-  ~LoudsTrie() {}
+  Trie();
+  ~Trie() {}
 
   void build(const vector<string> &keys);
 
@@ -19,7 +19,7 @@ class LoudsTrie : TrieBase {
   void reverse_lookup(uint64_t id, string &key) const;
 
   const char *name() const {
-    return "LoudsTrie";
+    return "LOUDS trie";
   }
   uint64_t n_keys() const {
     return n_keys_;
@@ -56,4 +56,4 @@ class LoudsTrie : TrieBase {
 
 }  // namespace trie_eval
 
-#endif  // LOUDS_TRIE_HPP
+#endif  // TRIE_HPP

@@ -1,10 +1,10 @@
-#include "louds-trie.hpp"
+#include "trie.hpp"
 
 #include <algorithm>
 
 namespace trie_eval {
 
-LoudsTrie::LoudsTrie()
+Trie::Trie()
   : levels_(2), n_keys_(0), n_nodes_(1), size_(0), last_key_() {
   levels_[0].louds.add(0);
   levels_[0].louds.add(1);
@@ -13,7 +13,7 @@ LoudsTrie::LoudsTrie()
   levels_[0].labels.push_back(' ');
 }
 
-void LoudsTrie::build(const vector<string> &keys) {
+void Trie::build(const vector<string> &keys) {
   for (auto it = keys.begin(); it != keys.end(); ++it) {
     add(*it);
   }
@@ -28,7 +28,7 @@ void LoudsTrie::build(const vector<string> &keys) {
   }
 }
 
-uint64_t LoudsTrie::lookup(const string &query) const {
+uint64_t Trie::lookup(const string &query) const {
   if (query.length() >= levels_.size()) {
     return false;
   }
@@ -58,7 +58,7 @@ uint64_t LoudsTrie::lookup(const string &query) const {
   return level.offset + level.outs.rank1(rank);
 }
 
-void LoudsTrie::reverse_lookup(uint64_t id, string &key) const {
+void Trie::reverse_lookup(uint64_t id, string &key) const {
   assert(id < n_keys());
   key.clear();
   uint64_t level_id = 0;
@@ -80,7 +80,7 @@ void LoudsTrie::reverse_lookup(uint64_t id, string &key) const {
   reverse(key.begin(), key.end());
 }
 
-void LoudsTrie::add(const string &key) {
+void Trie::add(const string &key) {
   assert(key > last_key_);
   if (key.empty()) {
     levels_[0].outs.set(0, 1);

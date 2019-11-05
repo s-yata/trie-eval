@@ -216,18 +216,69 @@ void Indirect::build(const vector<string> &keys) {
   size_ += tail_bytes_.size();
 }
 
+// uint64_t Indirect::lookup(const string &query) const {
+//   uint64_t node_id = 0;
+//   for (uint64_t i = 0; i < query.length(); ++i) {
+//     uint8_t byte = query[i];
+//     uint64_t node_pos = louds_.select1(node_id) + 1;
+//     node_id = node_pos - node_id - 1;
+//     for ( ; ; ) {
+//       if (louds_[node_pos]) {
+//         return -1;
+//       }
+//       if (labels_[node_id] == byte) {
+//         if (link_bits_[node_id]) {
+//           uint64_t tail_id = links_[link_bits_.rank1(node_id)];
+//           uint64_t tail_pos = tail_bits_.select1(tail_id);
+//           for (++i; i < query.length(); ++i) {
+//             if (tail_bytes_[tail_pos] != (uint8_t)query[i]) {
+//               return -1;
+//             }
+//             ++tail_pos;
+//             if (tail_bits_[tail_pos]) {
+//               break;
+//             }
+//           }
+//         }
+//         break;
+//       }
+//       ++node_pos;
+//       ++node_id;
+//     }
+//   }
+//   if (!outs_[node_id]) {
+//     return -1;
+//   }
+//   return outs_.rank1(node_id);
+// }
+
 uint64_t Indirect::lookup(const string &query) const {
-  uint64_t node_pos = 0;
   uint64_t node_id = 0;
   for (uint64_t i = 0; i < query.length(); ++i) {
-    uint8_t byte = query[i];
-    node_pos = louds_.select1(node_id) + 1;
-    node_id = node_pos - node_id - 1;
-    for ( ; ; ) {
-      if (louds_[node_pos]) {
-        return -1;
+    uint64_t node_pos = louds_.select1(node_id) + 1;
+
+    uint64_t end = node_pos;
+    uint64_t word = louds_.words[end / 64] >> (end % 64);
+    if (word == 0) {
+      end += 64 - (end % 64);
+      word = louds_.words[end / 64];
+      while (word == 0) {
+        end += 64;
+        word = louds_.words[end / 64];
       }
-      if (labels_[node_id] == byte) {
+    }
+    end += __builtin_ctzll(word);
+    uint64_t begin = node_pos - node_id - 1;
+    end = begin + end - node_pos;
+
+    uint8_t byte = query[i];
+    while (begin < end) {
+      node_id = (begin + end) / 2;
+      if (byte < labels_[node_id]) {
+        end = node_id;
+      } else if (byte > labels_[node_id]) {
+        begin = node_id + 1;
+      } else {
         if (link_bits_[node_id]) {
           uint64_t tail_id = links_[link_bits_.rank1(node_id)];
           uint64_t tail_pos = tail_bits_.select1(tail_id);
@@ -243,8 +294,9 @@ uint64_t Indirect::lookup(const string &query) const {
         }
         break;
       }
-      ++node_pos;
-      ++node_id;
+    }
+    if (begin >= end) {
+      return -1;
     }
   }
   if (!outs_[node_id]) {

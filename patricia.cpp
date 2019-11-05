@@ -168,11 +168,10 @@ void Patricia::build(const vector<string> &keys) {
 }
 
 uint64_t Patricia::lookup(const string &query) const {
-  uint64_t node_pos = 0;
   uint64_t node_id = 0;
   for (uint64_t i = 0; i < query.length(); ++i) {
     uint8_t byte = query[i];
-    node_pos = louds_.select1(node_id) + 1;
+    uint64_t node_pos = louds_.select1(node_id) + 1;
     node_id = node_pos - node_id - 1;
     for ( ; ; ) {
       if (louds_[node_pos]) {

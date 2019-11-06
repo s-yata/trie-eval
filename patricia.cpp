@@ -158,7 +158,7 @@ void Patricia::build(const vector<string> &keys) {
   tail_bits_.build();
 
   n_keys_ = trie.n_keys;
-  n_nodes_ = outs_.size();
+  n_nodes_ = outs_.n_bits;
   size_ = louds_.size();
   size_ += outs_.size();
   size_ += links_.size();

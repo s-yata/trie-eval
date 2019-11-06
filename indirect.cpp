@@ -291,6 +291,9 @@ uint64_t Indirect::lookup(const string &query) const {
               break;
             }
           }
+          if (i == query.length()) {
+            return -1;
+          }
         }
         break;
       }

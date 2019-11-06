@@ -12,6 +12,7 @@
 #include "trie.hpp"
 #include "patricia.hpp"
 #include "indirect.hpp"
+#include "tstree.hpp"
 
 namespace {
 
@@ -178,6 +179,7 @@ void run(int argc, char *argv[]) {
   eval<Trie>(keys, shuffled_keys, shuffled_ids);
   eval<Patricia>(keys, shuffled_keys, shuffled_ids);
   eval<Indirect>(keys, shuffled_keys, shuffled_ids);
+  eval<TSTree>(keys, shuffled_keys, shuffled_ids);
 }
 
 }  // namespace
